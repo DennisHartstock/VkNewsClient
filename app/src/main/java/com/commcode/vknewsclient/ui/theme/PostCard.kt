@@ -20,8 +20,12 @@ import androidx.compose.ui.unit.dp
 import com.commcode.vknewsclient.R
 
 @Composable
-fun PostCard() {
-    Card {
+fun PostCard(
+    modifier: Modifier = Modifier,
+) {
+    Card(
+        modifier = modifier
+    ) {
         Column(modifier = Modifier.padding(8.dp)) {
             PostHeader()
             Spacer(modifier = Modifier.height(8.dp))
