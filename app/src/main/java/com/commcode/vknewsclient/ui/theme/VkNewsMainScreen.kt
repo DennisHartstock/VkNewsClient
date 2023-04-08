@@ -14,6 +14,11 @@ import com.commcode.vknewsclient.domain.FeedPost
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen() {
+
+    val feedPost = remember {
+        mutableStateOf(FeedPost())
+    }
+
     Scaffold(
         bottomBar = {
             BottomNavigation {
@@ -46,7 +51,20 @@ fun MainScreen() {
     ) {
         PostCard(
             modifier = Modifier.padding(8.dp),
-            feedPost = FeedPost()
+            feedPost = feedPost.value,
+            onStatisticsItemClickListener = { newItem ->
+                val oldStatistics = feedPost.value.statistics
+                val newStatistics = oldStatistics.toMutableList().apply {
+                    replaceAll { oldItem ->
+                        if (oldItem.type == newItem.type) {
+                            oldItem.copy(count = oldItem.count + 1)
+                        } else {
+                            oldItem
+                        }
+                    }
+                }
+                feedPost.value = feedPost.value.copy(statistics = newStatistics)
+            }
         )
     }
 }

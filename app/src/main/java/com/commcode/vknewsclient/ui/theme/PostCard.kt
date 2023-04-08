@@ -1,6 +1,7 @@
 package com.commcode.vknewsclient.ui.theme
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
@@ -25,6 +26,7 @@ import com.commcode.vknewsclient.domain.StatisticType
 fun PostCard(
     modifier: Modifier = Modifier,
     feedPost: FeedPost,
+    onStatisticsItemClickListener: (StatisticItem) -> Unit,
 ) {
     Card(
         modifier = modifier
@@ -41,7 +43,10 @@ fun PostCard(
                 contentScale = ContentScale.FillWidth
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Statistics(feedPost.statistics)
+            Statistics(
+                feedPost.statistics,
+                onItemClickListener = onStatisticsItemClickListener
+            )
         }
     }
 }
@@ -53,6 +58,7 @@ private fun List<StatisticItem>.getItemByType(type: StatisticType): StatisticIte
 @Composable
 private fun Statistics(
     statistics: List<StatisticItem>,
+    onItemClickListener: (StatisticItem) -> Unit,
 ) {
     Row {
         Row(
@@ -62,7 +68,10 @@ private fun Statistics(
             val viewsItem = statistics.getItemByType(StatisticType.VIEWS)
             IconWithText(
                 iconResId = R.drawable.ic_views_count,
-                text = viewsItem.count.toString()
+                text = viewsItem.count.toString(),
+                onItemClickListener = {
+                    onItemClickListener(viewsItem)
+                }
             )
         }
         Row(
@@ -73,25 +82,42 @@ private fun Statistics(
             val sharesItem = statistics.getItemByType(StatisticType.SHARES)
             IconWithText(
                 iconResId = R.drawable.ic_share,
-                text = sharesItem.count.toString()
+                text = sharesItem.count.toString(),
+                onItemClickListener = {
+                    onItemClickListener(sharesItem)
+                }
             )
             val commentsItem = statistics.getItemByType(StatisticType.COMMENTS)
             IconWithText(
                 iconResId = R.drawable.ic_comment,
-                text = commentsItem.count.toString()
+                text = commentsItem.count.toString(),
+                onItemClickListener = {
+                    onItemClickListener(commentsItem)
+                }
             )
             val likesItem = statistics.getItemByType(StatisticType.LIKES)
             IconWithText(
                 iconResId = R.drawable.ic_like,
-                text = likesItem.count.toString()
+                text = likesItem.count.toString(),
+                onItemClickListener = {
+                    onItemClickListener(likesItem)
+                }
             )
         }
     }
 }
 
 @Composable
-private fun IconWithText(iconResId: Int, text: String) {
-    Row {
+private fun IconWithText(
+    iconResId: Int,
+    text: String,
+    onItemClickListener: () -> Unit,
+) {
+    Row(
+        modifier = Modifier.clickable {
+            onItemClickListener()
+        }
+    ) {
         Icon(
             painter = painterResource(id = iconResId),
             contentDescription = null,
