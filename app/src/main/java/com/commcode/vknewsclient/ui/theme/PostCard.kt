@@ -15,51 +15,76 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.commcode.vknewsclient.R
+import com.commcode.vknewsclient.domain.FeedPost
+import com.commcode.vknewsclient.domain.StatisticItem
+import com.commcode.vknewsclient.domain.StatisticType
 
 @Composable
 fun PostCard(
     modifier: Modifier = Modifier,
+    feedPost: FeedPost,
 ) {
     Card(
         modifier = modifier
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
-            PostHeader()
+            PostHeader(feedPost)
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Post content")
+            Text(text = feedPost.postContent)
             Spacer(modifier = Modifier.height(8.dp))
             Image(
-                painter = painterResource(id = R.drawable.post_content_image),
+                painter = painterResource(id = feedPost.postImageResId),
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth(),
                 contentScale = ContentScale.FillWidth
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Statistics()
+            Statistics(feedPost.statistics)
         }
     }
 }
 
+private fun List<StatisticItem>.getItemByType(type: StatisticType): StatisticItem {
+    return this.find { it.type == type } ?: throw IllegalStateException()
+}
+
 @Composable
-private fun Statistics() {
+private fun Statistics(
+    statistics: List<StatisticItem>,
+) {
     Row {
         Row(
             modifier = Modifier.weight(1f),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconWithText(iconResId = R.drawable.ic_views_count, text = "8")
+            val viewsItem = statistics.getItemByType(StatisticType.VIEWS)
+            IconWithText(
+                iconResId = R.drawable.ic_views_count,
+                text = viewsItem.count.toString()
+            )
         }
         Row(
             modifier = Modifier.weight(1f),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            IconWithText(iconResId = R.drawable.ic_share, text = "23")
-            IconWithText(iconResId = R.drawable.ic_comment, text = "10")
-            IconWithText(iconResId = R.drawable.ic_like, text = "15")
+            val sharesItem = statistics.getItemByType(StatisticType.SHARES)
+            IconWithText(
+                iconResId = R.drawable.ic_share,
+                text = sharesItem.count.toString()
+            )
+            val commentsItem = statistics.getItemByType(StatisticType.COMMENTS)
+            IconWithText(
+                iconResId = R.drawable.ic_comment,
+                text = commentsItem.count.toString()
+            )
+            val likesItem = statistics.getItemByType(StatisticType.LIKES)
+            IconWithText(
+                iconResId = R.drawable.ic_like,
+                text = likesItem.count.toString()
+            )
         }
     }
 }
@@ -78,7 +103,9 @@ private fun IconWithText(iconResId: Int, text: String) {
 }
 
 @Composable
-private fun PostHeader() {
+private fun PostHeader(
+    feedPost: FeedPost,
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -88,19 +115,19 @@ private fun PostHeader() {
                 .size(50.dp)
                 .clip(CircleShape),
             painter = painterResource(
-                id = R.drawable.post_community_thumbnail
+                id = feedPost.avatarResId
             ),
-            contentDescription = "/dev/null"
+            contentDescription = null
         )
         Spacer(modifier = Modifier.padding(8.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = "Community Title",
+                text = feedPost.communityName,
                 color = MaterialTheme.colors.onPrimary
             )
             Spacer(modifier = Modifier.padding(4.dp))
             Text(
-                text = "09:24",
+                text = feedPost.publicationDate,
                 color = MaterialTheme.colors.onSecondary
             )
         }
@@ -109,21 +136,5 @@ private fun PostHeader() {
             contentDescription = "Menu",
             tint = MaterialTheme.colors.onSecondary
         )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewDark() {
-    VkNewsClientTheme(darkTheme = true) {
-        PostCard()
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewLight() {
-    VkNewsClientTheme(darkTheme = false) {
-        PostCard()
     }
 }
