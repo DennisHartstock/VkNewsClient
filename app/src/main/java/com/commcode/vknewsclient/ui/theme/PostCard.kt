@@ -40,9 +40,10 @@ fun PostCard(
             Text(text = feedPost.postContent)
             Spacer(modifier = Modifier.height(8.dp))
             Image(
+                modifier = Modifier
+                    .fillMaxWidth(),
                 painter = painterResource(id = feedPost.postImageResId),
                 contentDescription = null,
-                modifier = Modifier.fillMaxWidth(),
                 contentScale = ContentScale.FillWidth
             )
             Spacer(modifier = Modifier.height(8.dp))
