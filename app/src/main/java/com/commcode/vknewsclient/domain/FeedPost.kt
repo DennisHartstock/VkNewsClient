@@ -3,6 +3,7 @@ package com.commcode.vknewsclient.domain
 import com.commcode.vknewsclient.R
 
 data class FeedPost(
+    val id: Int = 0,
     val avatarResId: Int = R.drawable.post_community_thumbnail,
     val communityName: String = "Community title",
     val publicationDate: String = "00:00",
