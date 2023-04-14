@@ -25,7 +25,7 @@ fun CommentsScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Comments for FeedBar Id: ${feedPost.id}")
+                    Text(text = "Comments for FeedPost Id: ${feedPost.id}")
                 },
                 navigationIcon = {
                     IconButton(onClick = {}) {
@@ -77,7 +77,7 @@ private fun CommentItem(
         Spacer(modifier = Modifier.width(8.dp))
         Column {
             Text(
-                text = "${comment.authorName} CommentId: ${comment.id}",
+                text = "${comment.authorName}, CommentId: ${comment.id}",
                 color = MaterialTheme.colors.onPrimary,
                 fontSize = 16.sp
             )
