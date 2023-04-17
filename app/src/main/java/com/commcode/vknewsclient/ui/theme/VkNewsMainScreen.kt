@@ -1,17 +1,20 @@
 package com.commcode.vknewsclient.ui.theme
 
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.commcode.vknewsclient.MainViewModel
+import com.commcode.vknewsclient.domain.FeedPost
 import com.commcode.vknewsclient.navigation.AppNavGraph
 import com.commcode.vknewsclient.navigation.rememberNavigationState
 
 @Composable
-fun MainScreen(viewModel: MainViewModel) {
+fun MainScreen() {
     val navigationState = rememberNavigationState()
+
+    val commentsToPost: MutableState<FeedPost?> = remember {
+        mutableStateOf(null)
+    }
 
     Scaffold(
         bottomBar = {
@@ -45,10 +48,16 @@ fun MainScreen(viewModel: MainViewModel) {
         AppNavGraph(
             navHostController = navigationState.navHostController,
             homeScreenContent = {
-                HomeScreen(
-                    viewModel = viewModel,
-                    paddingValues = paddingValues
-                )
+                if (commentsToPost.value == null) {
+                    HomeScreen(
+                        paddingValues = paddingValues,
+                        onCommentClickListener = {
+                            commentsToPost.value = it
+                        }
+                    )
+                } else {
+                    commentsToPost.value = null
+                }
             },
             favoriteScreenContent = { /*TODO*/ },
             profileScreenContent = { /*TODO*/ }
