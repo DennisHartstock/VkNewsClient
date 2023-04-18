@@ -56,7 +56,12 @@ fun MainScreen() {
                         }
                     )
                 } else {
-                    commentsToPost.value = null
+                    CommentsScreen(
+                        onBackPressed = {
+                            commentsToPost.value = null
+                        },
+                        feedPost = commentsToPost.value!!
+                    )
                 }
             },
             favoriteScreenContent = { /*TODO*/ },
