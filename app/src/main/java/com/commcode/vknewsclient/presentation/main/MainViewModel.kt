@@ -1,9 +1,8 @@
-package com.commcode.vknewsclient
+package com.commcode.vknewsclient.presentation.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.commcode.vknewsclient.ui.theme.AuthState
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAuthenticationResult
 

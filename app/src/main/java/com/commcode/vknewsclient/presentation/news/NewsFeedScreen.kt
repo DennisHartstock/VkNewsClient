@@ -1,4 +1,4 @@
-package com.commcode.vknewsclient.ui.theme
+package com.commcode.vknewsclient.presentation.news
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -15,12 +15,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.commcode.vknewsclient.NewsFeedViewModel
 import com.commcode.vknewsclient.domain.FeedPost
+import com.commcode.vknewsclient.ui.theme.PostCard
 
 
 @Composable
-fun HomeScreen(
+fun NewsFeedScreen(
     paddingValues: PaddingValues,
     onCommentClickListener: (FeedPost) -> Unit,
 ) {

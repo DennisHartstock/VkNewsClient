@@ -1,4 +1,4 @@
-package com.commcode.vknewsclient
+package com.commcode.vknewsclient.presentation.comments
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

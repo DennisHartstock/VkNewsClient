@@ -1,4 +1,4 @@
-package com.commcode.vknewsclient.ui.theme
+package com.commcode.vknewsclient.presentation.main
 
 sealed class AuthState {
 

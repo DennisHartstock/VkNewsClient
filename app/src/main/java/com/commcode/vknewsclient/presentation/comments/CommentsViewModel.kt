@@ -1,11 +1,10 @@
-package com.commcode.vknewsclient
+package com.commcode.vknewsclient.presentation.comments
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.commcode.vknewsclient.domain.FeedPost
 import com.commcode.vknewsclient.domain.PostComment
-import com.commcode.vknewsclient.ui.theme.CommentsScreenState
 
 class CommentsViewModel(
     feedPost: FeedPost,
