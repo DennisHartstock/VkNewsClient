@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.commcode.vknewsclient.domain.FeedPost
-import com.commcode.vknewsclient.ui.theme.PostCard
 
 
 @Composable
