@@ -15,6 +15,7 @@ data class FeedPost(
     val postContent: String,
     val contentImageUrl: String?,
     val statistics: List<StatisticItem>,
+    val isFavorite: Boolean,
 ) : Parcelable {
 
     companion object {
