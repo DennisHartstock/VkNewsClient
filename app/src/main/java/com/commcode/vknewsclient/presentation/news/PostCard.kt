@@ -37,8 +37,6 @@ import com.commcode.vknewsclient.ui.theme.LightRed
 fun PostCard(
     modifier: Modifier = Modifier,
     feedPost: FeedPost,
-    onViewsItemClickListener: (StatisticItem) -> Unit,
-    onSharesItemClickListener: (StatisticItem) -> Unit,
     onCommentItemClickListener: (StatisticItem) -> Unit,
     onLikesItemClickListener: (StatisticItem) -> Unit,
 ) {
@@ -63,8 +61,6 @@ fun PostCard(
             Spacer(modifier = Modifier.height(8.dp))
             Statistics(
                 feedPost.statistics,
-                onViewsItemClickListener = onViewsItemClickListener,
-                onSharesItemClickListener = onSharesItemClickListener,
                 onCommentItemClickListener = onCommentItemClickListener,
                 onLikesItemClickListener = onLikesItemClickListener,
                 isFavorite = feedPost.isLiked
@@ -80,8 +76,6 @@ private fun List<StatisticItem>.getItemByType(type: StatisticType): StatisticIte
 @Composable
 private fun Statistics(
     statistics: List<StatisticItem>,
-    onViewsItemClickListener: (StatisticItem) -> Unit,
-    onSharesItemClickListener: (StatisticItem) -> Unit,
     onCommentItemClickListener: (StatisticItem) -> Unit,
     onLikesItemClickListener: (StatisticItem) -> Unit,
     isFavorite: Boolean,
@@ -95,9 +89,6 @@ private fun Statistics(
             IconWithText(
                 iconResId = R.drawable.ic_views_count,
                 text = formatStatisticCount(viewsItem.count),
-                onItemClickListener = {
-                    onViewsItemClickListener(viewsItem)
-                }
             )
         }
         Row(
@@ -108,9 +99,6 @@ private fun Statistics(
             IconWithText(
                 iconResId = R.drawable.ic_share,
                 text = formatStatisticCount(sharesItem.count),
-                onItemClickListener = {
-                    onSharesItemClickListener(sharesItem)
-                }
             )
             val commentItem = statistics.getItemByType(StatisticType.COMMENTS)
             IconWithText(
@@ -147,13 +135,18 @@ private fun formatStatisticCount(count: Int): String {
 private fun IconWithText(
     iconResId: Int,
     text: String,
-    onItemClickListener: () -> Unit,
+    onItemClickListener: (() -> Unit)? = null,
     tint: Color = MaterialTheme.colors.onSecondary,
 ) {
-    Row(
-        modifier = Modifier.clickable {
+    val modifier = if (onItemClickListener == null) {
+        Modifier
+    } else {
+        Modifier.clickable {
             onItemClickListener()
-        },
+        }
+    }
+    Row(
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
