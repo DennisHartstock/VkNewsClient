@@ -40,7 +40,7 @@ interface ApiService {
         @Query("item_id") postId: Long,
     ): LikesCountResponseDto
 
-    @GET("wall.getComments?v=5.131&extended=1&fields=photo=100")
+    @GET("wall.getComments?v=5.131&extended=1&fields=photo_100")
     suspend fun getComments(
         @Query("access_token") token: String,
         @Query("owner_id") ownerId: Long,
