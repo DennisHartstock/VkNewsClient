@@ -23,15 +23,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.commcode.vknewsclient.domain.entity.FeedPost
+import com.commcode.vknewsclient.presentation.ViewModelFactory
 import com.commcode.vknewsclient.ui.theme.DarkBlue
 
 
 @Composable
 fun NewsFeedScreen(
+    viewModelFactory: ViewModelFactory,
     paddingValues: PaddingValues,
     onCommentClickListener: (FeedPost) -> Unit,
 ) {
-    val viewModel: NewsFeedViewModel = viewModel()
+    val viewModel: NewsFeedViewModel = viewModel(factory = viewModelFactory)
     val screenState = viewModel.screenState.collectAsState(NewsFeedScreenState.Initial)
 
     when (val currentState = screenState.value) {
