@@ -1,7 +1,6 @@
 package com.commcode.vknewsclient.di
 
 import androidx.lifecycle.ViewModel
-import com.commcode.vknewsclient.presentation.comments.CommentsViewModel
 import com.commcode.vknewsclient.presentation.main.MainViewModel
 import com.commcode.vknewsclient.presentation.news.NewsFeedViewModel
 import dagger.Binds
@@ -20,9 +19,4 @@ interface ViewModelModule {
     @ViewModelKey(MainViewModel::class)
     @Binds
     fun bindMainViewModel(viewModel: MainViewModel): ViewModel
-
-    @IntoMap
-    @ViewModelKey(CommentsViewModel::class)
-    @Binds
-    fun bindCommentsViewModel(viewModel: CommentsViewModel): ViewModel
 }
