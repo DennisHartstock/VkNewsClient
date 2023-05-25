@@ -13,12 +13,11 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.commcode.vknewsclient.navigation.AppNavGraph
 import com.commcode.vknewsclient.navigation.rememberNavigationState
-import com.commcode.vknewsclient.presentation.ViewModelFactory
 import com.commcode.vknewsclient.presentation.comments.CommentsScreen
 import com.commcode.vknewsclient.presentation.news.NewsFeedScreen
 
 @Composable
-fun MainScreen(viewModelFactory: ViewModelFactory) {
+fun MainScreen() {
     val navigationState = rememberNavigationState()
 
     Scaffold(
@@ -62,7 +61,6 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
             navHostController = navigationState.navHostController,
             newsFeedScreenContent = {
                 NewsFeedScreen(
-                    viewModelFactory = viewModelFactory,
                     paddingValues = paddingValues,
                     onCommentClickListener = {
                         navigationState.navigateToComments(it)

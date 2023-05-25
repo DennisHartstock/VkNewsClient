@@ -7,40 +7,29 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.commcode.vknewsclient.domain.entity.AuthState
-import com.commcode.vknewsclient.presentation.NewsFeedApplication
-import com.commcode.vknewsclient.presentation.ViewModelFactory
+import com.commcode.vknewsclient.presentation.getApplicationComponent
 import com.commcode.vknewsclient.ui.theme.VkNewsClientTheme
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKScope
-import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val component by lazy {
-        (application as NewsFeedApplication).component
-    }
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        component.inject(this)
         super.onCreate(savedInstanceState)
         setContent {
+            val component = getApplicationComponent()
+            val viewModel: MainViewModel = viewModel(factory = component.getViewModelFactory())
+            val authState = viewModel.authState.collectAsState(AuthState.Initial)
+
+            val launcher = rememberLauncherForActivityResult(
+                contract = VK.getVKAuthActivityResultContract()
+            ) {
+                viewModel.performAuthResult()
+            }
             VkNewsClientTheme {
-                val viewModel: MainViewModel = viewModel(factory = viewModelFactory)
-                val authState = viewModel.authState.collectAsState(initial = AuthState.Initial)
-
-                val launcher = rememberLauncherForActivityResult(
-                    contract = VK.getVKAuthActivityResultContract()
-                ) {
-                    viewModel.performAuthResult()
-                }
-
                 when (authState.value) {
                     is AuthState.Authorized -> {
-                        MainScreen(viewModelFactory)
+                        MainScreen()
                     }
 
                     is AuthState.NotAuthorized -> {

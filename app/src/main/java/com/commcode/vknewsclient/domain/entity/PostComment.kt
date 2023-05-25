@@ -1,5 +1,8 @@
 package com.commcode.vknewsclient.domain.entity
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class PostComment(
     val id: Long,
     val authorAvatarUrl: String,
